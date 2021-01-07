@@ -30,7 +30,7 @@
    (hole x4 y2)
    (hole x4 y4)
    (hole x5 y3)
-   (food-at x6 y1)
-   (at car x4 y1))
+   (food-at x5 y2)
+   (at car x1 y6))
  (:goal
-(and (picked-up x6 y1) (at car x4 y3))))
+(and (picked-up x5 y2) (at car x4 y3))))

@@ -82,12 +82,12 @@ def foodDeliveryPlan(problem):
     solution = []
 
     import subprocess
-    exitCode = subprocess.call('../fast-downward.py delivery.pddl delivery1.pddl --heuristic "h=ff()" --search "astar(h)"', shell=True)
+    exitCode = subprocess.call('../fast-downward.py delivery.pddl delivery1.pddl --evaluator "hff=ff()" --search "lazy_greedy([hff], preferred=[hff])"', shell=True)
 
     if(not exitCode):
-        f = open("../sas_plan", "r")
+        f = open("sas_plan", "r")
         lines = f.readlines()
-
+        f.close()
         for i in range(len(lines)):
             dir = lines[i].split(" ")
             if dir[0] == '(north':
