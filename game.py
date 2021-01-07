@@ -390,6 +390,7 @@ class GameStateData:
         self._foodEaten = None
         self._foodAdded = None
         self._capsuleEaten = None
+        self._restaurantVisited = None
         self._agentMoved = None
         self._lose = False
         self._win = False
@@ -404,6 +405,7 @@ class GameStateData:
         state.layout = self.layout.deepCopy()
         state._agentMoved = self._agentMoved
         state._foodEaten = self._foodEaten
+        state._restaurantVisited = self._restaurantVisited
         state._foodAdded = self._foodAdded
         state._capsuleEaten = self._capsuleEaten
         return state
@@ -422,6 +424,7 @@ class GameStateData:
         # TODO Check for type of other
         if not self.agentStates == other.agentStates: return False
         if not self.food == other.food: return False
+        if not self.restaurant == other.restaurant: return False
         if not self.capsules == other.capsules: return False
         if not self.score == other.score: return False
         return True

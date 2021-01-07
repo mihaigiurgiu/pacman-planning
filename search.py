@@ -81,7 +81,7 @@ def foodDeliveryPlan(problem):
 
     solution = []
 
-    f = open("sas_plan.txt", "r")
+    f = open("sas_plan", "r")
     lines = f.readlines()
 
     for i in range(len(lines)):

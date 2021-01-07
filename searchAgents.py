@@ -368,6 +368,8 @@ class AStarCornersAgent(SearchAgent):
         self.searchFunction = lambda prob: search.aStarSearch(prob, cornersHeuristic)
         self.searchType = CornersProblem
 
+initString = '(define (problem delivery1)\n' + '  (:domain delivery)\n' + '  (:objects '
+
 class DeliveryProblem:
     """
     A search problem associated with finding the a path that collects all of the
@@ -384,14 +386,54 @@ class DeliveryProblem:
         self.destination = startingGameState.getDestination()
         self.restaurant = startingGameState.getRestaurant()
         self.startingGameState = startingGameState
+        self.generateFDinput()
         self._expanded = 0 # DO NOT CHANGE
         self.heuristicInfo = {} # A dictionary for the heuristic to store information
 
+    def generateFDinput(self):
+        from game import Grid
+        f = open("delivery1.pddl", "w")
+        toFileWriter = initString
+
+        for i in range(1, self.holes.width-1):
+            toFileWriter += 'x' + str(i) + ' '
+        for i in range(1, self.holes.height-1):
+            toFileWriter += 'y' + str(i) + ' '
+
+        toFileWriter += '- position car - agent)\n' + '  (:init\n'
+
+        for i in range(1, self.holes.width-2):
+            toFileWriter += '   (inc x' + str(i) + ' x' + str(i+1) + ')\n'
+            toFileWriter += '   (dec y' + str(i) + ' y' + str(i+1) + ')\n'
+            toFileWriter += '   (inc y' + str(i+1) + ' y' + str(i) + ')\n'
+            toFileWriter += '   (dec x' + str(i+1) + ' x' + str(i) + ')\n'
+
+        for i in range(1, self.holes.width-1):
+            for j in range(1, self.holes.height-1):
+                if(self.holes[i][j]):
+                    toFileWriter += '   (hole x' + str(i) + ' y' + str(j) + ')\n'
+
+        rest = (0, 0)
+        for i in range(1, self.holes.width-1):
+            for j in range(1, self.holes.height-1):
+                if(self.restaurant[i][j]):
+                    toFileWriter += '   (food-at x' + str(i) + ' y' + str(j) + ')\n'
+                    rest = (str(i), str(j))
+                    
+
+        toFileWriter += '   (at car x' + str(self.start[0]) + ' y' + str(self.start[1]) + '))\n'
+        toFileWriter += ' (:goal\n' + '(and (picked-up x' + str(rest[0]) + ' y' + str(rest[1]) + ') '
+        
+        for i in range(1, self.holes.width-1):
+            for j in range(1, self.holes.height-1):
+                if(self.destination[i][j]):
+                    toFileWriter += '(at car x' + str(i) + ' y' + str(j) + '))))'
+
+        f.write(toFileWriter)
+        f.close()
+
     def getStartState(self):
         return self.start
-
-    # def isGoalState(self, state):
-    #     return state[1].count() == 0
 
     def getSuccessors(self, state):
         "Returns successor states, the actions they require, and a cost of 1."
@@ -541,3 +583,4 @@ def mazeDistance(point1, point2, gameState):
     assert not walls[x2][y2], 'point2 is a wall: ' + str(point2)
     prob = PositionSearchProblem(gameState, start=point1, goal=point2, warn=False, visualize=False)
     return len(search.bfs(prob))
+

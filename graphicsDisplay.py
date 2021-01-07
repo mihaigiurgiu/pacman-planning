@@ -68,6 +68,15 @@ PACMAN_SCALE = 0.5
 FOOD_COLOR = formatColor(1,1,1)
 FOOD_SIZE = 0.1
 
+RESTAURANT_COLOR = formatColor(0, 0, 1)
+RESTAURANT_SIZE = 0.5
+
+HOLE_COLOR = formatColor(165.0/255.0, 42.0/255.0, 42.0/255.0)
+HOLE_SIZE = 0.5
+
+DESTINATION_COLOR = formatColor(0, 1, 0)
+DESTINATION_SIZE = 0.3
+
 # Laser
 LASER_COLOR = formatColor(1,0,0)
 LASER_SIZE = 0.02
@@ -206,6 +215,9 @@ class PacmanGraphics:
         self.drawWalls(layout.walls)
         self.food = self.drawFood(layout.food)
         self.capsules = self.drawCapsules(layout.capsules)
+        self.restaurant = self.drawRestaurant(layout.restaurant)
+        self.destination = self.drawDestination(layout.destination)
+        self.holes = self.drawHoles(layout.holes)
         refresh()
 
     def drawAgentObjects(self, state):
@@ -249,6 +261,9 @@ class PacmanGraphics:
             self.removeFood(newState._foodEaten, self.food)
         if newState._capsuleEaten != None:
             self.removeCapsule(newState._capsuleEaten, self.capsules)
+        if newState._restaurantVisited != None:
+            self.removeRestaurant(newState._restaurantVisited, self.restaurant)
+
         self.infoPane.updateScore(newState.score)
         if 'ghostDistances' in dir(newState):
             self.infoPane.updateGhostDistances(newState.ghostDistances)
@@ -553,9 +568,70 @@ class PacmanGraphics:
             capsuleImages[capsule] = dot
         return capsuleImages
 
+    def drawRestaurant(self, restaurant):
+        restaurantImages = []
+        color = RESTAURANT_COLOR
+        for xNum, x in enumerate(restaurant):
+            restaurantRow = []
+            restaurantImages.append(restaurantRow)
+            for yNum, cell in enumerate(x):
+                if cell:
+                    screen = self.to_screen((xNum, yNum))
+                    block = circle(screen,
+                                    RESTAURANT_SIZE*self.gridSize,
+                                    outlineColor=RESTAURANT_COLOR,
+                                    fillColor=RESTAURANT_COLOR,
+                                    width=1)
+                    restaurantRow.append(block)
+                else:
+                    restaurantRow.append(None)
+        return restaurantImages
+
+    def drawHoles(self, holes):
+        holesImages = []
+        color = HOLE_COLOR
+        for xNum, x in enumerate(holes):
+            holesRow = []
+            holesImages.append(holesRow)
+            for yNum, cell in enumerate(x):
+                if cell:
+                    screen = self.to_screen((xNum, yNum))
+                    block = square(screen,
+                                    HOLE_SIZE*self.gridSize,
+                                    color=HOLE_COLOR,
+                                    filled=1,
+                                    behind=0)
+                    holesRow.append(block)
+                else:
+                    holesRow.append(None)
+        return holesImages
+
+    def drawDestination(self, destination):
+        destinationImages = []
+        color = DESTINATION_COLOR
+        for xNum, x in enumerate(destination):
+            destinationRow = []
+            destinationImages.append(destinationRow)
+            for yNum, cell in enumerate(x):
+                if cell:
+                    screen = self.to_screen((xNum, yNum))
+                    block = circle(screen,
+                                    DESTINATION_SIZE*self.gridSize,
+                                    outlineColor=formatColor(0, 0, 0),
+                                    fillColor=formatColor(1, 1, 1),
+                                    width=1)
+                    destinationRow.append(block)
+                else:
+                    destinationRow.append(None)
+        return destinationImages
+
     def removeFood(self, cell, foodImages ):
         x, y = cell
         remove_from_screen(foodImages[x][y])
+
+    def removeRestaurant(self, cell, restaurantImages ):
+        x, y = cell
+        remove_from_screen(restaurantImages[x][y])
 
     def removeCapsule(self, cell, capsuleImages ):
         x, y = cell
