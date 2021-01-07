@@ -1,11 +1,11 @@
-(define (domain maze)
+(define (domain delivery)
   (:requirements :strips :adl)
   (:types agent position)
   (:predicates 
     (inc ?a ?b - position)
     (dec ?a ?b - position)
     (at ?a - agent ?x ?y - position)
-    (wall ?x ?y)
+    (hole ?x ?y)
     (picked-up ?x ?y)
     (food-at ?x ?y - position)
     )
@@ -18,7 +18,7 @@
                     (when 
                       (and (at ?car ?x ?y)
                            (dec ?y ?yn)
-                           (not (wall ?x ?yn))
+                           (not (hole ?x ?yn))
                       )
                       (and (not (at ?car ?x ?y))
                            (at ?car ?x ?yn))
@@ -34,7 +34,7 @@
                     (when 
                       (and (at ?car ?x ?y)
                            (inc ?y ?yn)
-                           (not (wall ?x ?yn))
+                           (not (hole ?x ?yn))
                       )
                       (and (not (at ?car ?x ?y))
                                 (at ?car ?x ?yn)
@@ -51,7 +51,7 @@
                     (when 
                       (and (at ?car ?x ?y)
                            (inc ?x ?xn)
-                           (not (wall ?xn ?y)
+                           (not (hole ?xn ?y)
                       )
                     )
                       (and (not (at ?car ?x ?y))
@@ -68,7 +68,7 @@
                     (when 
                       (and (at ?car ?x ?y)
                            (dec ?x ?xn)
-                           (not (wall ?xn ?y)
+                           (not (hole ?xn ?y)
                       )
                     )
                       (and (not (at ?car ?x ?y))

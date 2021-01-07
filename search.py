@@ -81,24 +81,28 @@ def foodDeliveryPlan(problem):
 
     solution = []
 
-    f = open("sas_plan", "r")
-    lines = f.readlines()
+    import subprocess
+    exitCode = subprocess.call('../fast-downward.py delivery.pddl delivery1.pddl --heuristic "h=ff()" --search "astar(h)"', shell=True)
 
-    for i in range(len(lines)):
-        dir = lines[i].split(" ")
-        if dir[0] == '(north':
-            solution.append(n)
-        elif dir[0] == '(south':
-            solution.append(s)
-        elif dir[0] == '(west':
-            solution.append(w)
-        elif dir[0] == '(east':
-            solution.append(e)
-        elif dir[0] == '(pick-up':
-            print 'food picked up'
+    if(not exitCode):
+        f = open("../sas_plan", "r")
+        lines = f.readlines()
 
-    print solution
-    return solution   
+        for i in range(len(lines)):
+            dir = lines[i].split(" ")
+            if dir[0] == '(north':
+                solution.append(n)
+            elif dir[0] == '(south':
+                solution.append(s)
+            elif dir[0] == '(west':
+                solution.append(w)
+            elif dir[0] == '(east':
+                solution.append(e)
+            elif dir[0] == '(pick-up':
+                print 'food picked up'
+
+        print solution
+        return solution   
 
 def depthFirstSearch(problem):
     """
