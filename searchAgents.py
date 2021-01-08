@@ -419,7 +419,6 @@ class DeliveryProblem:
                 if(self.restaurant[i][j]):
                     toFileWriter += '   (food-at x' + str(i) + ' y' + str(j) + ')\n'
                     rest = (str(i), str(j))
-                    
 
         toFileWriter += '   (at car x' + str(self.start[0]) + ' y' + str(self.start[1]) + '))\n'
         toFileWriter += ' (:goal\n' + '(and (picked-up x' + str(rest[0]) + ' y' + str(rest[1]) + ') '

@@ -72,12 +72,104 @@ def tinyMazeSearch(problem):
     w = Directions.WEST
     return  [s, s, w, s, w, w, s, w]
 
+def generateRandomGrid(size):
+    f = open("layouts/randomLayout.lay", "w")
+
+    # first_last = '%' * (size+2)
+    # intermediate = '%' + ' ' * size + '%'
+
+    # f.write(first_last + '\n')
+    # for i in range(1, size+1):
+    #     f.write(intermediate + '\n')
+    # f.write(first_last)
+
+    lay = [[' ' for i in range(size+2)] for j in range(size+2)]
+
+    for i in range(0, size+2):
+        for j in range(0, size+2):
+            if (i == 0 or j == 0 or i == size+1 or j == size+1):
+                lay[i][j] = '%'
+
+    from util import random
+
+    maxHoles = (int)((size*size)/2)
+    minHoles = (int)((size*size)/6)
+
+    noOfHoles = random.randint(minHoles, maxHoles)
+    holesCnt = 0
+
+    startLocSet = False
+    restLocSet = False
+    destLocSet = False
+
+
+    for i in range(1, size+1):
+        for j in range(1, size+1):
+            if(holesCnt != noOfHoles):
+                chance = random.randint(1, 10)
+                if(chance < 4): 
+                    lay[i][j] = 'H'
+                    holesCnt += 1
+            else:
+                break    
+        if(holesCnt == noOfHoles):
+            break
+            
+    for i in range(1, size+1):
+        for j in range(1, size+1):
+            if (not startLocSet):
+                if lay[i][j] == ' ':
+                    chance = random.randint(1, 10)
+                    if(chance < 3):
+                        lay[i][j] = 'P'
+                        startLocSet = True
+            else:
+                break
+        if startLocSet:
+            break
+
+    for i in range(1, size+1):
+        for j in range(1, size+1):
+            if (not restLocSet):
+                if lay[i][j] == ' ':
+                    chance = random.randint(1, 10)
+                    if(chance < 3):
+                        lay[i][j] = 'R'
+                        restLocSet = True
+            else: 
+                break
+        if restLocSet:
+            break
+                    
+    
+    for i in range(1, size+1):
+        for j in range(1, size+1):
+            if(not destLocSet):
+                if lay[i][j] == ' ':
+                    chance = random.randint(1, 10)
+                    if(chance < 3):
+                        lay[i][j] = 'D'
+                        destLocSet = True
+            else:
+                break
+        if destLocSet:
+            break
+    
+    for i in range(0, size+2):
+        for j in range(0, size+2):
+            f.write(str(lay[i][j]))
+        f.write('\n')                
+
+    f.close()
+
 def foodDeliveryPlan(problem):
     from game import Directions
     s = Directions.SOUTH
     w = Directions.WEST
     n = Directions.NORTH
     e = Directions.EAST
+
+    generateRandomGrid(30)
 
     solution = []
 
