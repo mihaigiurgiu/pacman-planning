@@ -29,7 +29,7 @@ class SearchProblem:
 
     def getStartState(self):
         """
-        Returns the start state for the search problem.
+        Returns the startLocSet = True state for the search problem.
         """
         util.raiseNotDefined()
 
@@ -106,8 +106,8 @@ def generateRandomGrid(size):
     for i in range(1, size+1):
         for j in range(1, size+1):
             if(holesCnt != noOfHoles):
-                chance = random.randint(1, 10)
-                if(chance < 4): 
+                chance = random.randint(1, 100)
+                if(chance < 21): 
                     lay[i][j] = 'H'
                     holesCnt += 1
             else:
@@ -115,45 +115,67 @@ def generateRandomGrid(size):
         if(holesCnt == noOfHoles):
             break
             
-    for i in range(1, size+1):
-        for j in range(1, size+1):
-            if (not startLocSet):
-                if lay[i][j] == ' ':
-                    chance = random.randint(1, 10)
-                    if(chance < 3):
-                        lay[i][j] = 'P'
-                        startLocSet = True
-            else:
-                break
-        if startLocSet:
-            break
 
-    for i in range(1, size+1):
-        for j in range(1, size+1):
-            if (not restLocSet):
-                if lay[i][j] == ' ':
-                    chance = random.randint(1, 10)
-                    if(chance < 3):
-                        lay[i][j] = 'R'
-                        restLocSet = True
-            else: 
-                break
-        if restLocSet:
-            break
+    while (not startLocSet):
+        x = random.randint(1, size+1)
+        y = random.randint(1, size+1)
+        if lay[x][y] == ' ':
+            lay[x][y] = 'P'
+            startLocSet = True
+
+    while (not restLocSet):
+        x = random.randint(1, size+1)
+        y = random.randint(1, size+1)
+        if lay[x][y] == ' ':
+            lay[x][y] = 'R'
+            restLocSet = True
+
+    while (not destLocSet):
+        x = random.randint(1, size+1)
+        y = random.randint(1, size+1)
+        if lay[x][y] == ' ':
+            lay[x][y] = 'D'
+            destLocSet = True
+
+    # for i in range(1, size+1):
+    #     for j in range(1, size+1):
+    #         if (not startLocSet):
+    #             if lay[i][j] == ' ':
+    #                 chance = random.randint(1, 100)
+    #                 if(chance < 3):
+    #                     lay[i][j] = 'P'
+    #                     startLocSet = True
+    #         else:
+    #             break
+    #     if startLocSet:
+    #         break
+
+    # for i in range(1, size+1):
+    #     for j in range(1, size+1):
+    #         if (not restLocSet):
+    #             if lay[i][j] == ' ':
+    #                 chance = random.randint(1, 100)
+    #                 if(chance < 3):
+    #                     lay[i][j] = 'R'
+    #                     restLocSet = True
+    #         else: 
+    #             break
+    #     if restLocSet:
+    #         break
                     
     
-    for i in range(1, size+1):
-        for j in range(1, size+1):
-            if(not destLocSet):
-                if lay[i][j] == ' ':
-                    chance = random.randint(1, 10)
-                    if(chance < 3):
-                        lay[i][j] = 'D'
-                        destLocSet = True
-            else:
-                break
-        if destLocSet:
-            break
+    # for i in range(1, size+1):
+    #     for j in range(1, size+1):
+    #         if(not destLocSet):
+    #             if lay[i][j] == ' ':
+    #                 chance = random.randint(1, 100)
+    #                 if(chance < 3):
+    #                     lay[i][j] = 'D'
+    #                     destLocSet = True
+    #         else:
+    #             break
+    #     if destLocSet:
+    #         break
     
     for i in range(0, size+2):
         for j in range(0, size+2):
@@ -207,7 +229,7 @@ def depthFirstSearch(problem):
     understand the search problem that is being passed in:
 
     print "Start:", problem.getStartState()
-    print "Is the start a goal?", problem.isGoalState(problem.getStartState())
+    print "Is the startLocSet = True a goal?", problem.isGoalState(problem.getStartState())
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
     "*** YOUR CODE HERE ***"
