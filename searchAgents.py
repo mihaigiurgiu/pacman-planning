@@ -431,9 +431,6 @@ class DeliveryProblem:
         f.write(toFileWriter)
         f.close()
 
-    # def call_fd(self):
-    #     import subprocess
-    #     return subprocess.call(["../fast-downward.py", "delivery.pddl", "delivery1.pddl", "--heuristic"  "-f", "mine.in"])
 
     def getStartState(self):
         return self.start
