@@ -68,7 +68,7 @@ PACMAN_SCALE = 0.5
 FOOD_COLOR = formatColor(1,1,1)
 FOOD_SIZE = 0.1
 
-RESTAURANT_COLOR = formatColor(0, 0, 0.7)
+RESTAURANT_COLOR = formatColor(1.0, 0, 0)
 RESTAURANT_SIZE = 0.5
 
 HOLE_COLOR = formatColor(74.0/255.0, 34.0/255.0, 4.0/255.0)

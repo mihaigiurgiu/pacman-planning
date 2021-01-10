@@ -371,14 +371,7 @@ class AStarCornersAgent(SearchAgent):
 initString = '(define (problem delivery1)\n' + '  (:domain delivery)\n' + '  (:objects '
 
 class DeliveryProblem:
-    """
-    A search problem associated with finding the a path that collects all of the
-    food (dots) in a Pacman game.
-
-    A search state in this problem is a tuple ( pacmanPosition, foodGrid ) where
-      pacmanPosition: a tuple (x,y) of integers specifying Pacman's position
-      foodGrid:       a Grid (see game.py) of either True or False, specifying remaining food
-    """
+   
     def __init__(self, startingGameState):
         self.start = startingGameState.getPacmanPosition()
         self.walls = startingGameState.getWalls()

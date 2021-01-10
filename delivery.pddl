@@ -5,10 +5,10 @@
     (inc ?a ?b - position)
     (dec ?a ?b - position)
     (at ?a - agent ?x ?y - position)
-    (hole ?x ?y)
-    (picked-up ?x ?y)
+    (hole ?x ?y - position)
+    (picked-up ?x ?y - position)
     (food-at ?x ?y - position)
-    )
+  )
    
   (:action 
     north
